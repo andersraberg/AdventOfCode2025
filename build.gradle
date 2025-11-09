@@ -1,0 +1,49 @@
+plugins {
+    id "java"
+    id "application"
+    id "eclipse"
+    id "jacoco"
+    alias(libs.plugins.sonarqube)
+    alias(libs.plugins.dependencyanalysis)
+}
+
+repositories {
+    mavenCentral()
+    google()
+}
+
+jacoco {
+    applyTo run
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = true
+        html.required = false
+        csv.required = false
+    }
+
+}
+
+version = providers.environmentVariable("BUILD_NUMBER").orElse("1.0-SNAPSHOT")
+
+dependencies {
+    implementation libs.guava
+    implementation libs.commonsMath
+    testImplementation libs.junitJupiterApi
+    testRuntimeOnly libs.junitJupiterEngine
+    testRuntimeOnly libs.junitPlatformLauncher
+}
+
+application {
+    mainClass = 'se.anders_raberg.adventofcode2025.DaysMain'
+
+    applicationDistribution.from("$projectDir/inputs") {
+        into "inputs"
+    }
+}
+
+test {
+	useJUnitPlatform()
+}
+

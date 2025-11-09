@@ -1,0 +1,24 @@
+plugins {
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.7.0'
+    id 'com.gradle.develocity' version '3.18.1'
+}
+
+develocity {
+    server = "https://dpeuniversity-develocity.gradle.com/"
+
+    buildScan {
+        publishing.onlyIf { false }
+    }
+}
+
+dependencyResolutionManagement {
+    repositories {
+        mavenCentral()
+    }
+
+    versionCatalogs {
+        create("libs") {
+            from(files("../common-catalog/gradle/libs.versions.toml"))
+        }
+    }
+}
